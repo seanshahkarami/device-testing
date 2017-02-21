@@ -1,0 +1,15 @@
+{
+  "mappings": {
+    "opcdata": {
+      "properties": {
+        "timestamp": { "type": "date", "format": "epoch_millis" },
+        "device": { "type": "keyword" },
+        "pm_1": { "type": "float" },
+        "pm_2_5": { "type": "float" },
+        "pm_10": { "type": "float" },
+        "sample_flow_rate": { "type": "float" },
+        "hex": { "type": "text" }
+      }
+    }
+  }
+}
