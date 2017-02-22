@@ -1,8 +1,8 @@
 
 index: bulk.txt
-	curl 'http://localhost:9200/testing' -XDELETE
-	curl 'http://localhost:9200/testing' -XPUT -d '@mappings/testing.json'
-	curl 'http://localhost:9200/_bulk' -XPOST --data-binary '@bulk.txt' > /dev/null
+	curl -s 'http://localhost:9200/testing' -XDELETE
+	curl -s 'http://localhost:9200/testing' -XPUT -d '@mappings/testing.json'
+	curl -s 'http://localhost:9200/_bulk' -XPOST --data-binary '@bulk.txt' >> /dev/null
 
 bulk.txt: clean0.py clean1.py clean2.py dev0.txt dev1.txt dev2.txt dev3.txt dev4.txt dev5.txt
 	./clean0.py dev0.txt.backup dev1.txt.backup dev2.txt.backup > bulk.txt
