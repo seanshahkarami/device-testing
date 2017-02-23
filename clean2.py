@@ -22,7 +22,12 @@ for filename in sys.argv[1:]:
         if len(data) != 62:
             continue
 
-        sample = decode18(data)
+        try:
+            sample = decode18(data)
+        except AssertionError as e:
+            print('decode error: {}'.format(data), file=sys.stderr)
+            continue
+
         hexdump = ' '.join(re.findall('\w{2}', hexlify(data).decode()))
 
         doc = {
