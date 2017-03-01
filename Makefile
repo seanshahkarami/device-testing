@@ -1,29 +1,23 @@
 
-index: bulk.txt
+index:
 	curl -s 'http://localhost:9200/testing' -XDELETE
 	curl -s 'http://localhost:9200/testing' -XPUT -d '@mappings/testing.json'
 	curl -s 'http://localhost:9200/_bulk' -XPOST --data-binary '@bulk.txt' >> /dev/null
 
-bulk.txt: clean0.py clean1.py clean2.py dev0.txt dev1.txt dev2.txt dev3.txt dev4.txt dev5.txt
-	./clean0.py dev0.txt.backup dev1.txt.backup dev2.txt.backup > bulk.txt
-	./clean1.py dev0.txt dev1.txt dev2.txt >> bulk.txt
-	./clean2.py dev3.txt dev4.txt dev5.txt >> bulk.txt
-
 fetch:
-	curl -O 'http://advaitha.pw/PM_Sense/dev0.txt'
-	curl -O 'http://advaitha.pw/PM_Sense/dev1.txt'
-	curl -O 'http://advaitha.pw/PM_Sense/dev2.txt'
-	curl -O 'http://advaitha.pw/PM_Sense/dev3.txt'
-	curl -O 'http://advaitha.pw/PM_Sense/dev4.txt'
-	curl -O 'http://advaitha.pw/PM_Sense/dev5.txt'
+	echo > bulk.txt
 
-json:
-	./jsonify0.py dev0.txt.backup > dev0-old.json
-	./jsonify0.py dev1.txt.backup > dev1-old.json
-	./jsonify0.py dev2.txt.backup > dev2-old.json
-	./jsonify1.py dev0.txt > dev0.json
-	./jsonify1.py dev1.txt > dev1.json
-	./jsonify1.py dev2.txt > dev2.json
-	./jsonify2.py dev3.txt > dev3.json
-	./jsonify2.py dev4.txt > dev4.json
-	./jsonify2.py dev5.txt > dev5.json
+	cat dev0.0.txt | sed -e '1,3d' -e '/--*/d' -e 's/(/[/g' -e 's/)/]/g' | ./clean1.py dev0_0 >> bulk.txt
+	cat dev1.0.txt | sed -e '1,3d' -e '/--*/d' -e 's/(/[/g' -e 's/)/]/g' | ./clean1.py dev1_0 >> bulk.txt
+	cat dev2.0.txt | sed -e '1,3d' -e '/--*/d' -e 's/(/[/g' -e 's/)/]/g' | ./clean1.py dev2_0 >> bulk.txt
+
+	cat dev3.0.txt | sed -n -e '/Bins:/p' | ./clean2.py dev3_0 >> bulk.txt
+	cat dev4.0.txt | sed -n -e '/Bins:/p' | ./clean2.py dev4_0 >> bulk.txt
+	cat dev5.0.txt | sed -n -e '/Bins:/p' | ./clean2.py dev5_0 >> bulk.txt
+
+	curl 'http://advaitha.pw/PM_Sense/dev1.txt' | sed -n -e '/Bins:/p' | ./clean2.py dev1 >> bulk.txt
+	curl 'http://advaitha.pw/PM_Sense/dev2.txt' | sed -n -e '/Bins:/p' | ./clean2.py dev2 >> bulk.txt
+	curl 'http://advaitha.pw/PM_Sense/dev3.txt' | sed -e '1,3d' -e '/--*/d' -e 's/(/[/g' -e 's/)/]/g' | ./clean1.py dev3 >> bulk.txt
+	curl 'http://advaitha.pw/PM_Sense/dev4.txt' | sed -e '1,3d' -e '/--*/d' -e 's/(/[/g' -e 's/)/]/g' | ./clean1.py dev4 >> bulk.txt
+	curl 'http://advaitha.pw/PM_Sense/dev5.txt' | sed -n -e '/Bins:/p' | ./clean2.py dev5 >> bulk.txt
+	curl 'http://advaitha.pw/PM_Sense/dev6.txt' | sed -e '1,3d' -e '/--*/d' -e 's/(/[/g' -e 's/)/]/g' | ./clean1.py dev6 >> bulk.txt
